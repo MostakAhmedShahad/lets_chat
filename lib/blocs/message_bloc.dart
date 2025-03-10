@@ -10,15 +10,26 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     on<SendMessage>(_onSendMessage);
   }
 
-  Future<void> _onLoadMessages(
-      LoadMessages event, Emitter<MessageState> emit) async {
+   Future<void> _onLoadMessages(
+    LoadMessages event, Emitter<MessageState> emit) async {
+  try {
+    print("Loading messages...");
     _firestoreService.getMessages().listen((messages) {
+      print("Messages loaded: ${messages.length}");
       emit(MessageLoaded(messages));
     });
+  } catch (e) {
+    print("Failed to load messages: $e");
+    emit(MessageError(message:"Failed to load messages"));
   }
+}
 
   Future<void> _onSendMessage(SendMessage event, Emitter<MessageState> emit) async {
-    await _firestoreService.sendMessage(event.text, event.userId);
+    try {
+      await _firestoreService.sendMessage(event.text, event.userId);
+    } catch (e) {
+      emit(MessageError(message: "Failed to send message"));
+    }
   }
 }
 
@@ -42,4 +53,7 @@ class MessageLoaded extends MessageState {
   MessageLoaded(this.messages);
 }
 
-class MessageError extends MessageState {}
+class MessageError extends MessageState {
+  final String message;
+  MessageError({required this.message});
+}

@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lets_chat/blocs/auth_bloc.dart';
 import '../blocs/message_bloc.dart';
 import '../widgets/message_bubble.dart';
-
-class ChatScreen extends StatelessWidget {
+ class ChatScreen extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
 
   @override

@@ -16,7 +16,7 @@ void main() async {
   }).catchError((error) {
     print("Firebase initialization failed: $error");
   });
-  
+
   final authService = AuthService();
   final firestoreService = FirestoreService();
 
@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AuthSignedInState) {
+              print("User is signed in: ${state.user.uid}");
               return ChatScreen();
             }
             return LoginScreen();
