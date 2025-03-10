@@ -83,14 +83,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onSignInAnonymously(
       AuthSignInAnonymously event, Emitter<AuthState> emit) async {
     try {
+      print("Attempting to sign in anonymously...");
       await _authService.signInAnonymously();
       final user = _authService.getCurrentUser(); // Get current user
       if (user != null) {
+        print("Signed in successfully: ${user.uid}");
         emit(AuthSignedInState(user)); // Emit AuthSignedInState with user
       } else {
+        print("Failed to sign in: User is null");
         emit(AuthErrorState("Failed to sign in"));
       }
     } catch (e) {
+      print("Failed to sign in: $e");
       emit(AuthErrorState("Failed to sign in"));
     }
   }

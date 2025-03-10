@@ -11,7 +11,11 @@ import 'screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: firebaseOptions);
+  await Firebase.initializeApp(options: firebaseOptions).then((_) {
+    print("Firebase initialized successfully");
+  }).catchError((error) {
+    print("Firebase initialization failed: $error");
+  });
   
   final authService = AuthService();
   final firestoreService = FirestoreService();
