@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
-            if (state is AuthSignedIn) {
+            if (state is AuthSignedInState) {
               return ChatScreen();
             }
             return LoginScreen();

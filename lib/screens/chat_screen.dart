@@ -1,8 +1,9 @@
+// chat_screen.dart
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/auth_bloc.dart';
+import 'package:lets_chat/blocs/auth_bloc.dart';
 import '../blocs/message_bloc.dart';
-import '../services/firestore_service.dart';
 import '../widgets/message_bubble.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -10,7 +11,12 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.select<AuthBloc, dynamic>((authBloc) => authBloc.state is AuthSignedIn ? (authBloc.state as AuthSignedIn).user : null);
+    final user = context.select<AuthBloc, User?>((authBloc) {
+      return (authBloc.state is AuthSignedInState)
+          ? (authBloc.state as AuthSignedInState).user
+          : null;
+    });
+
     final messageBloc = BlocProvider.of<MessageBloc>(context);
 
     if (user == null) {

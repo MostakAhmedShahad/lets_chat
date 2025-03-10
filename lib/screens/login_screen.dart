@@ -6,12 +6,14 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Login')),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            BlocProvider.of<AuthBloc>(context).add(AuthSignInAnonymously());
+            // Trigger the sign-in anonymously event
+            context.read<AuthBloc>().add(AuthSignInAnonymously());
           },
-          child: Text('Login Anonymously'),
+          child: Text("Login Anonymously"),
         ),
       ),
     );
